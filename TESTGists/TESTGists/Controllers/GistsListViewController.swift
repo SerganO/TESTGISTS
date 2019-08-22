@@ -50,10 +50,7 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         setupTableView()
-        getGistsForPage(page: currentPage, completion: {
-            self.tableView.setContentOffset(.zero, animated: true)
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        })
+        getGistsForPage(page: currentPage)
         
         let createButton = UIButton(type: .system)
         createButton.setTitle("Create", for: .normal)
@@ -67,9 +64,7 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @objc func loadOlder() {
         currentPage += 1
-        getGistsForPage(page: currentPage, completion: {self.tableView.setContentOffset(.zero, animated: true)
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        })
+        getGistsForPage(page: currentPage)
     }
     
     @objc func loadNewest() {
@@ -77,17 +72,13 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
             return
         }
         currentPage -= 1
-        getGistsForPage(page: currentPage, completion: {self.tableView.setContentOffset(.zero, animated: true)
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        })
+        getGistsForPage(page: currentPage)
     }
     
     @objc func changeStyle() {
         isPublic = !isPublic
         currentPage = 1
-        getGistsForPage(page: currentPage, completion: {self.tableView.setContentOffset(.zero, animated: true)
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        })
+        getGistsForPage(page: currentPage)
     }
     
     
@@ -95,9 +86,7 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
         currentPage = 1
         loadMoreStatus = true
         refreshing = true
-        getGistsForPage(page: currentPage, completion: {self.tableView.setContentOffset(.zero, animated: true)
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        })
+        getGistsForPage(page: currentPage)
     }
     
     func setupTableView() {
@@ -112,7 +101,7 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     
 
     
-    func getGistsForPage(page: Int, completion: @escaping  () -> Void) {
+    func getGistsForPage(page: Int) {
         let activityData = ActivityData()
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
         ApiClient.client.getGistsForPage(page, isPublic: self.isPublic, success: { (response) in
@@ -121,12 +110,15 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
                 return
             }
             print("PAGE \(page)")
+            print("RETURN EQUAL GIST \(self.showedGists == gists)")
             self.showedGists = gists
             self.loadMoreStatus = false
             self.refreshing = false
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
-            completion()
+            self.tableView.setContentOffset(.zero, animated: false)
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+
         }) { (error) in
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
             self.loadMoreStatus = false
@@ -136,8 +128,6 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
             self.handleError(error, action: action)
         }
     }
-    
-    
     
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

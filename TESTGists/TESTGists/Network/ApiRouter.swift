@@ -32,6 +32,7 @@ enum ApiRouter: URLRequestConvertible {
         case .login:
             return "/user"
         case .getGistsForPage(_, let isPublic):
+            print("IS PUBLIC \(isPublic)")
             if isPublic {
                 return "/gists/public"
             } else {
@@ -86,8 +87,9 @@ enum ApiRouter: URLRequestConvertible {
         case .login(username:let username, password: let password):
             ApiRouter.authorizationString = "\(username):\(password)".toBase64()
             urlRequest.allHTTPHeaderFields = authHeaders
-        case .getGistsForPage(let page):
+        case .getGistsForPage(let page, _):
             let newUrl = addParams(url: url.appendingPathComponent(path), params: ["page":"\(page)"])
+            print(newUrl)
             urlRequest = URLRequest(url: newUrl)
             urlRequest.allHTTPHeaderFields = authHeaders
             break

@@ -62,6 +62,7 @@ class ApiClient {
                 case .getGistsForPage:
                     let decoder = JSONDecoder()
                     let _gists = try? decoder.decode([Gist].self, from: data)
+                    print(response.request?.url ?? "NO URL")
                     if let gists = _gists {
                         success(gists)
                         print("SUCCESS")

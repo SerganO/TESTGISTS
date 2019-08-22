@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Gist: Decodable {
+struct Gist: Decodable, Equatable {
     var description: String
     var owner: User
     
