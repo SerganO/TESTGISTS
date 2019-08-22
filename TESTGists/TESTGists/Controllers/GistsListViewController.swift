@@ -116,8 +116,10 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
             self.refreshing = false
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
+            if self.tableView.numberOfRows(inSection: 0) > 0 {
             self.tableView.setContentOffset(.zero, animated: false)
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            }
 
         }) { (error) in
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)

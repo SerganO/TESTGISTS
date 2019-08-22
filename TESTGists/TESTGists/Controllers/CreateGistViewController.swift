@@ -23,6 +23,13 @@ class CreateGistViewController: UIViewController, ErrorHandler {
     
     
     @objc func createButtonTap() {
+        guard descriptionTextView.text != "", fileContentTextView.text != "" else {
+            let alert = UIAlertController(title: "Info", message: "Please write anothing", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true)
+            return
+        }
+        
         let activityData = ActivityData()
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
         ApiClient.client.createGistWith(description: descriptionTextView.text, isPublic: publicSwith.isOn, files: [GistFile(name: "filename.txt:", content: fileContentTextView.text)], success: { (response) in
