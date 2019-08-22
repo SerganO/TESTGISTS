@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import NVActivityIndicatorView
 
-class CreateGistViewController: UIViewController {
+class CreateGistViewController: UIViewController, ErrorHandler {
 
     let descriptionTextView = UITextView()
     let fileContentTextView = UITextView()
@@ -32,7 +32,11 @@ class CreateGistViewController: UIViewController {
         }) { (error) in
             print("FAIL((((")
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
-            self.navigationController?.popViewController(animated: true)
+            let action = UIAlertAction(title: "Ok", style: .default, handler: { (_) in
+                self.navigationController?.popViewController(animated: true)
+            })
+            self.handleError(error, action: action)
+            
         }
     }
     
@@ -44,6 +48,12 @@ class CreateGistViewController: UIViewController {
         fileContentLabel.text = "Content"
         descriptionTextView.text = ""
         fileContentTextView.text = ""
+        descriptionTextView.layer.borderWidth = 1
+        fileContentTextView.layer.borderWidth = 1
+        descriptionTextView.layer.borderColor = UIColor.black.cgColor
+        fileContentTextView.layer.borderColor = UIColor.black.cgColor
+        descriptionTextView.font = UIFont.preferredFont(forTextStyle: .body)
+        fileContentTextView.font = UIFont.preferredFont(forTextStyle: .body)
         createButton.setTitle("Create", for: .normal)
         createButton.addTarget(self, action: #selector(createButtonTap), for: .touchUpInside)
         
@@ -84,7 +94,7 @@ class CreateGistViewController: UIViewController {
             make.top.equalTo(fileContentLabel.snp.bottom).offset(15)
             make.leading.equalToSuperview().offset(15)
             make.trailing.equalToSuperview().offset(-15)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-15)
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createButton)

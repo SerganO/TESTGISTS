@@ -20,10 +20,10 @@ class ApiClient {
         
     }
     
-    func getGistsForPage(_ page: Int,
+    func getGistsForPage(_ page: Int, isPublic: Bool,
                    success: @escaping (_ response: Any?) -> Void,
                    failure: @escaping (_ error: Error) -> Void) {
-        let request = ApiRouter.getGistsForPage(page: page)
+        let request = ApiRouter.getGistsForPage(page: page, isPublic: isPublic)
         sendRequest(request, success: success, failure: failure)
         
     }

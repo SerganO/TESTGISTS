@@ -11,7 +11,8 @@ import SnapKit
 import IQKeyboardManagerSwift
 import NVActivityIndicatorView
 
-class AuthorizationViewController: UIViewController {
+class AuthorizationViewController: UIViewController, ErrorHandler {
+
     
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
@@ -22,7 +23,7 @@ class AuthorizationViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        
+        view.backgroundColor = .white
         usernameTextField.placeholder = "Username"
         usernameTextField.borderStyle = .line
         view.addSubview(usernameTextField)
@@ -83,21 +84,18 @@ class AuthorizationViewController: UIViewController {
                 return
             }
             print("congratulations")
-            self.view.backgroundColor = .green
             let gistsVC = GistsListViewController()
             gistsVC.user = user
             
             self.navigationController?.pushViewController(gistsVC, animated: true)
         }, failure: { (error) in
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
-            self.handleApiError(error)
+            let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            self.handleError(error, action: action)
         })
         
     }
     
-    func handleApiError(_ error: Error) {
-        view.backgroundColor = .red
-    }
     
     
 }

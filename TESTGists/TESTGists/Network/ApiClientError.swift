@@ -14,7 +14,7 @@ enum ApiClientError: LocalizedError {
     var localizedDescription: String {
         switch self {
         case .unknownError:
-            return "Something happened. Try again later"
+            return "Something went wrong. Try again later"
         }
     }
 }

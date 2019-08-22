@@ -14,7 +14,7 @@ enum ApiRouter: URLRequestConvertible {
     private static let baseUrl = "https://api.github.com"
     private static var authorizationString = ""
     case login(username: String, password: String)
-    case getGistsForPage(page: Int)
+    case getGistsForPage(page: Int, isPublic: Bool)
     case createGistWith(description: String, isPublic: Bool, files:[GistFile])
     
     var method: HTTPMethod {
@@ -31,8 +31,12 @@ enum ApiRouter: URLRequestConvertible {
         switch self {
         case .login:
             return "/user"
-        case .getGistsForPage:
-            return "/gists/public"
+        case .getGistsForPage(_, let isPublic):
+            if isPublic {
+                return "/gists/public"
+            } else {
+                return "/gists"
+            }
         case .createGistWith:
             return "/gists"
         }

@@ -11,7 +11,7 @@ import SnapKit
 import Alamofire.Swift
 import NVActivityIndicatorView
 
-class GistsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class GistsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ErrorHandler {
     
     var user = User()
     let tableView = UITableView()
@@ -19,6 +19,7 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     let footerView = UIView()
     var showedGists: [Gist] = []
     let refreshControl = UIRefreshControl()
+    var isPublic = true
 
     
     var loadMoreStatus = true
@@ -58,6 +59,9 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
         createButton.setTitle("Create", for: .normal)
         createButton.addTarget(self, action: #selector(navigateToCreateGistVC), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createButton)
+        let typeSwitch = UISwitch()
+        typeSwitch.addTarget(self, action: #selector(changeStyle), for: .valueChanged)
+        navigationItem.titleView = typeSwitch
         
     }
     
@@ -73,6 +77,14 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
             return
         }
         currentPage -= 1
+        getGistsForPage(page: currentPage, completion: {self.tableView.setContentOffset(.zero, animated: true)
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        })
+    }
+    
+    @objc func changeStyle() {
+        isPublic = !isPublic
+        currentPage = 1
         getGistsForPage(page: currentPage, completion: {self.tableView.setContentOffset(.zero, animated: true)
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         })
@@ -103,7 +115,7 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     func getGistsForPage(page: Int, completion: @escaping  () -> Void) {
         let activityData = ActivityData()
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
-        ApiClient.client.getGistsForPage(page, success: { (response) in
+        ApiClient.client.getGistsForPage(page, isPublic: self.isPublic, success: { (response) in
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
             guard let gists = response as? [Gist] else {
                 return
@@ -114,11 +126,14 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
             self.refreshing = false
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
+            completion()
         }) { (error) in
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
             self.loadMoreStatus = false
             self.refreshing = false
             self.refreshControl.endRefreshing()
+            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+            self.handleError(error, action: action)
         }
     }
     
@@ -158,17 +173,4 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     
 }
 
-extension String {
-    
-    func fromBase64() -> String? {
-        guard let data = Data(base64Encoded: self) else {
-            return nil
-        }
-        
-        return String(data: data, encoding: .utf8)
-    }
-    
-    func toBase64() -> String {
-        return Data(self.utf8).base64EncodedString()
-    }
-}
+

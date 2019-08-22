@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D34E9316230D25C5007E5B53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34E9315230D25C5007E5B53 /* AppDelegate.swift */; };
-		D34E9318230D25C5007E5B53 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34E9317230D25C5007E5B53 /* ViewController.swift */; };
 		D34E931B230D25C5007E5B53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34E9319230D25C5007E5B53 /* Main.storyboard */; };
 		D34E931D230D25C7007E5B53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D34E931C230D25C7007E5B53 /* Assets.xcassets */; };
 		D34E9320230D25C7007E5B53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34E931E230D25C7007E5B53 /* LaunchScreen.storyboard */; };
@@ -27,6 +26,8 @@
 		D34E935F230D910B007E5B53 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34E935E230D910B007E5B53 /* ControlCell.swift */; };
 		D35742F9230E69C400FDDDD3 /* GistFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35742F8230E69C400FDDDD3 /* GistFile.swift */; };
 		D35742FE230E806400FDDDD3 /* CreateGistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35742FD230E806400FDDDD3 /* CreateGistViewController.swift */; };
+		D3574300230E88DE00FDDDD3 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35742FF230E88DE00FDDDD3 /* ErrorHandler.swift */; };
+		D3574304230E8BC900FDDDD3 /* StringConvertBase64.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3574303230E8BC900FDDDD3 /* StringConvertBase64.swift */; };
 		F2D1AF526FC8ADBC0E5478BF /* Pods_TESTGists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1935FC2C86D7941DF25B2E /* Pods_TESTGists.framework */; };
 /* End PBXBuildFile section */
 
@@ -53,7 +54,6 @@
 		AB1935FC2C86D7941DF25B2E /* Pods_TESTGists.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TESTGists.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D34E9312230D25C5007E5B53 /* TESTGists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TESTGists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D34E9315230D25C5007E5B53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D34E9317230D25C5007E5B53 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D34E931A230D25C5007E5B53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D34E931C230D25C7007E5B53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D34E931F230D25C7007E5B53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -77,6 +77,8 @@
 		D34E935E230D910B007E5B53 /* ControlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCell.swift; sourceTree = "<group>"; };
 		D35742F8230E69C400FDDDD3 /* GistFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GistFile.swift; sourceTree = "<group>"; };
 		D35742FD230E806400FDDDD3 /* CreateGistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGistViewController.swift; sourceTree = "<group>"; };
+		D35742FF230E88DE00FDDDD3 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		D3574303230E8BC900FDDDD3 /* StringConvertBase64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConvertBase64.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,23 +149,17 @@
 		D34E9314230D25C5007E5B53 /* TESTGists */ = {
 			isa = PBXGroup;
 			children = (
+				D3574302230E8BAA00FDDDD3 /* Extension */,
+				D3574301230E8B9D00FDDDD3 /* Network */,
+				D3574306230E8C0A00FDDDD3 /* Helpers */,
 				D34E9349230D36D0007E5B53 /* Model */,
+				D3574307230E8C1800FDDDD3 /* View */,
+				D3574305230E8BDE00FDDDD3 /* Controllers */,
 				D34E9315230D25C5007E5B53 /* AppDelegate.swift */,
-				D34E9317230D25C5007E5B53 /* ViewController.swift */,
 				D34E9319230D25C5007E5B53 /* Main.storyboard */,
 				D34E931C230D25C7007E5B53 /* Assets.xcassets */,
 				D34E931E230D25C7007E5B53 /* LaunchScreen.storyboard */,
 				D34E9321230D25C7007E5B53 /* Info.plist */,
-				D34E9345230D2885007E5B53 /* GistsListViewController.swift */,
-				D34E934F230D5041007E5B53 /* ApiRouter.swift */,
-				D34E9351230D56AF007E5B53 /* ApiClient.swift */,
-				D34E9353230D5AAA007E5B53 /* ApiClientError.swift */,
-				D34E9355230D5B9D007E5B53 /* AuthorizationViewController.swift */,
-				D34E9357230D6ABD007E5B53 /* GistCell.swift */,
-				D34E935A230D8714007E5B53 /* CacheManager.swift */,
-				D34E935C230D8748007E5B53 /* UIImageView+GetImageFromURL.swift */,
-				D34E935E230D910B007E5B53 /* ControlCell.swift */,
-				D35742FD230E806400FDDDD3 /* CreateGistViewController.swift */,
 			);
 			path = TESTGists;
 			sourceTree = "<group>";
@@ -189,11 +185,58 @@
 		D34E9349230D36D0007E5B53 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D34E934A230D36F3007E5B53 /* Gist.swift */,
 				D34E934C230D374A007E5B53 /* User.swift */,
+				D34E934A230D36F3007E5B53 /* Gist.swift */,
 				D35742F8230E69C400FDDDD3 /* GistFile.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D3574301230E8B9D00FDDDD3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				D34E934F230D5041007E5B53 /* ApiRouter.swift */,
+				D34E9351230D56AF007E5B53 /* ApiClient.swift */,
+				D34E9353230D5AAA007E5B53 /* ApiClientError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		D3574302230E8BAA00FDDDD3 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D3574303230E8BC900FDDDD3 /* StringConvertBase64.swift */,
+				D34E935C230D8748007E5B53 /* UIImageView+GetImageFromURL.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		D3574305230E8BDE00FDDDD3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D34E9355230D5B9D007E5B53 /* AuthorizationViewController.swift */,
+				D34E9345230D2885007E5B53 /* GistsListViewController.swift */,
+				D35742FD230E806400FDDDD3 /* CreateGistViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		D3574306230E8C0A00FDDDD3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D35742FF230E88DE00FDDDD3 /* ErrorHandler.swift */,
+				D34E935A230D8714007E5B53 /* CacheManager.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		D3574307230E8C1800FDDDD3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D34E9357230D6ABD007E5B53 /* GistCell.swift */,
+				D34E935E230D910B007E5B53 /* ControlCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,14 +418,15 @@
 				D34E9356230D5B9D007E5B53 /* AuthorizationViewController.swift in Sources */,
 				D34E9352230D56AF007E5B53 /* ApiClient.swift in Sources */,
 				D34E935D230D8748007E5B53 /* UIImageView+GetImageFromURL.swift in Sources */,
+				D3574304230E8BC900FDDDD3 /* StringConvertBase64.swift in Sources */,
 				D35742FE230E806400FDDDD3 /* CreateGistViewController.swift in Sources */,
+				D3574300230E88DE00FDDDD3 /* ErrorHandler.swift in Sources */,
 				D34E934B230D36F3007E5B53 /* Gist.swift in Sources */,
 				D34E935F230D910B007E5B53 /* ControlCell.swift in Sources */,
 				D34E9354230D5AAA007E5B53 /* ApiClientError.swift in Sources */,
 				D34E9350230D5041007E5B53 /* ApiRouter.swift in Sources */,
 				D35742F9230E69C400FDDDD3 /* GistFile.swift in Sources */,
 				D34E935B230D8714007E5B53 /* CacheManager.swift in Sources */,
-				D34E9318230D25C5007E5B53 /* ViewController.swift in Sources */,
 				D34E9346230D2885007E5B53 /* GistsListViewController.swift in Sources */,
 				D34E934D230D374A007E5B53 /* User.swift in Sources */,
 				D34E9316230D25C5007E5B53 /* AppDelegate.swift in Sources */,
