@@ -94,7 +94,7 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.register(ControlCell.self, forCellReuseIdentifier: controlCellIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 80
+        tableView.rowHeight = 100
         tableView.addSubview(refreshControl)
         tableView.tableFooterView = footerView
     }

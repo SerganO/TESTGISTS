@@ -37,7 +37,7 @@ class GistCell: UITableViewCell {
         ownerIcon.snp.makeConstraints { (make) in
             make.height.equalTo(iconSize)
             make.width.equalTo(iconSize)
-            make.leading.equalToSuperview()
+            make.leading.equalToSuperview().offset(15)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -49,7 +49,7 @@ class GistCell: UITableViewCell {
         
         container.addSubview(ownerContainer)
         ownerContainer.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().offset(10)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
@@ -57,10 +57,10 @@ class GistCell: UITableViewCell {
         descriptionTextView.isEditable = false
         container.addSubview(descriptionTextView)
         descriptionTextView.snp.makeConstraints { (make) in
-            make.top.equalTo(ownerContainer.snp.bottom)
+            make.top.equalTo(ownerContainer.snp.bottom).offset(5)
             make.bottom.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(5)
         }
         contentView.addSubview(container)
         container.snp.makeConstraints { (make) in
