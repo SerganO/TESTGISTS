@@ -47,7 +47,7 @@ class ApiClient {
                      success: @escaping (_ response: Any?) -> Void,
                      failure: @escaping (_ error: Error) -> Void) {
         
-        manager.request(request).validate(statusCode: 200...300).responseData { (response) in
+        manager.request(request).validate(statusCode: 200..<300).responseData { (response) in
             print("================")
             print("Reponse request url: ")
             print(response.request?.url ?? "n/a")
