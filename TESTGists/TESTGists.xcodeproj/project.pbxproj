@@ -28,6 +28,7 @@
 		D35742FE230E806400FDDDD3 /* CreateGistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35742FD230E806400FDDDD3 /* CreateGistViewController.swift */; };
 		D3574300230E88DE00FDDDD3 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35742FF230E88DE00FDDDD3 /* ErrorHandler.swift */; };
 		D3574304230E8BC900FDDDD3 /* StringConvertBase64.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3574303230E8BC900FDDDD3 /* StringConvertBase64.swift */; };
+		D357430A230EC66900FDDDD3 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3574309230EC66900FDDDD3 /* BaseViewController.swift */; };
 		F2D1AF526FC8ADBC0E5478BF /* Pods_TESTGists.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1935FC2C86D7941DF25B2E /* Pods_TESTGists.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		D35742FD230E806400FDDDD3 /* CreateGistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGistViewController.swift; sourceTree = "<group>"; };
 		D35742FF230E88DE00FDDDD3 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		D3574303230E8BC900FDDDD3 /* StringConvertBase64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConvertBase64.swift; sourceTree = "<group>"; };
+		D3574309230EC66900FDDDD3 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 		D3574305230E8BDE00FDDDD3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D3574309230EC66900FDDDD3 /* BaseViewController.swift */,
 				D34E9355230D5B9D007E5B53 /* AuthorizationViewController.swift */,
 				D34E9345230D2885007E5B53 /* GistsListViewController.swift */,
 				D35742FD230E806400FDDDD3 /* CreateGistViewController.swift */,
@@ -421,6 +424,7 @@
 				D3574304230E8BC900FDDDD3 /* StringConvertBase64.swift in Sources */,
 				D35742FE230E806400FDDDD3 /* CreateGistViewController.swift in Sources */,
 				D3574300230E88DE00FDDDD3 /* ErrorHandler.swift in Sources */,
+				D357430A230EC66900FDDDD3 /* BaseViewController.swift in Sources */,
 				D34E934B230D36F3007E5B53 /* Gist.swift in Sources */,
 				D34E935F230D910B007E5B53 /* ControlCell.swift in Sources */,
 				D34E9354230D5AAA007E5B53 /* ApiClientError.swift in Sources */,

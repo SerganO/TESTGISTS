@@ -23,11 +23,4 @@ extension User {
         login = ""
         avatarUrl = ""
     }
-    
-    init(from decoder: Decoder) throws {
-        let userContainer = try decoder.container(keyedBy: CodingKeys.self)
-        login = try userContainer.decode(String.self, forKey: .login)
-        avatarUrl = try userContainer.decode(String.self, forKey: .avatarUrl)
-        
-    }
 }

@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import NVActivityIndicatorView
 
-class CreateGistViewController: UIViewController, ErrorHandler {
+class CreateGistViewController: BaseViewController {
 
     let descriptionTextView = UITextView()
     let fileContentTextView = UITextView()
@@ -33,17 +33,11 @@ class CreateGistViewController: UIViewController, ErrorHandler {
         let activityData = ActivityData()
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
         ApiClient.client.createGistWith(description: descriptionTextView.text, isPublic: publicSwith.isOn, files: [GistFile(name: "filename.txt:", content: fileContentTextView.text)], success: { (response) in
-            print("SUCCESS)))")
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
             self.navigationController?.popViewController(animated: true)
         }) { (error) in
-            print("FAIL((((")
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
-            let action = UIAlertAction(title: "Ok", style: .default, handler: { (_) in
-                self.navigationController?.popViewController(animated: true)
-            })
-            self.handleError(error, action: action)
-            
+            self.handleError(error)
         }
     }
     

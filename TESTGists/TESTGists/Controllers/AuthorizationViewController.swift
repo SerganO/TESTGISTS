@@ -11,7 +11,7 @@ import SnapKit
 import IQKeyboardManagerSwift
 import NVActivityIndicatorView
 
-class AuthorizationViewController: UIViewController, ErrorHandler {
+class AuthorizationViewController: BaseViewController {
 
     
     let usernameTextField = UITextField()
@@ -90,8 +90,7 @@ class AuthorizationViewController: UIViewController, ErrorHandler {
             self.navigationController?.pushViewController(gistsVC, animated: true)
         }, failure: { (error) in
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
-            let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            self.handleError(error, action: action)
+            self.handleError(error)
         })
         
     }

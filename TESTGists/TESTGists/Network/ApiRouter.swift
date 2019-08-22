@@ -32,7 +32,6 @@ enum ApiRouter: URLRequestConvertible {
         case .login:
             return "/user"
         case .getGistsForPage(_, let isPublic):
-            print("IS PUBLIC \(isPublic)")
             if isPublic {
                 return "/gists/public"
             } else {
@@ -55,25 +54,7 @@ enum ApiRouter: URLRequestConvertible {
         }
         return headers
     }
-    
-    func addParams(url: URL, params: [String:String]) -> URL {
-        let components = URLComponents(url:url, resolvingAgainstBaseURL: false)
-        guard var component = components else {
-            return url
-        }
-        component.queryItems = []
-        for param in params {
-            let item = URLQueryItem(name: param.key, value: param.value)
-            component.queryItems?.append(item)
-        }
-        guard let newUrl = component.url else {
-            return url
-        }
-        return newUrl
-    }
-    
-    
-    
+
     func asURLRequest() throws -> URLRequest {
         
         let url = try ApiRouter.baseUrl.asURL()
@@ -82,15 +63,13 @@ enum ApiRouter: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         urlRequest.allHTTPHeaderFields = defaultHeaders
 
-        
         switch self {
         case .login(username:let username, password: let password):
             ApiRouter.authorizationString = "\(username):\(password)".toBase64()
             urlRequest.allHTTPHeaderFields = authHeaders
         case .getGistsForPage(let page, _):
-            let newUrl = addParams(url: url.appendingPathComponent(path), params: ["page":"\(page)"])
-            print(newUrl)
-            urlRequest = URLRequest(url: newUrl)
+            let params: Parameters = ["page":page]
+            urlRequest = try URLEncoding.default.encode(urlRequest, with: params)
             urlRequest.allHTTPHeaderFields = authHeaders
             break
         case .createGistWith(let description, let isPublic, let files):

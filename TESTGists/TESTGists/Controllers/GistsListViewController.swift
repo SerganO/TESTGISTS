@@ -11,7 +11,7 @@ import SnapKit
 import Alamofire.Swift
 import NVActivityIndicatorView
 
-class GistsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ErrorHandler {
+class GistsListViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     var user = User()
     let tableView = UITableView()
@@ -20,9 +20,10 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     var showedGists: [Gist] = []
     let refreshControl = UIRefreshControl()
     var isPublic = true
+    let typeSwitch = UISwitch()
 
     
-    var loadMoreStatus = true
+    var typeChanging = false
     var refreshing = false
     
     let gistsCellIdentifier = "gistsCell"
@@ -56,9 +57,8 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
         createButton.setTitle("Create", for: .normal)
         createButton.addTarget(self, action: #selector(navigateToCreateGistVC), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: createButton)
-        let typeSwitch = UISwitch()
         typeSwitch.addTarget(self, action: #selector(changeStyle), for: .valueChanged)
-        navigationItem.titleView = typeSwitch
+        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(customView: typeSwitch))
         
     }
     
@@ -76,6 +76,10 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @objc func changeStyle() {
+        guard !typeChanging else {
+            return
+        }
+        typeChanging = true
         isPublic = !isPublic
         currentPage = 1
         getGistsForPage(page: currentPage)
@@ -84,7 +88,6 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @objc func refresh() {
         currentPage = 1
-        loadMoreStatus = true
         refreshing = true
         getGistsForPage(page: currentPage)
     }
@@ -99,8 +102,6 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.tableFooterView = footerView
     }
     
-
-    
     func getGistsForPage(page: Int) {
         let activityData = ActivityData()
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
@@ -112,7 +113,6 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
             print("PAGE \(page)")
             print("RETURN EQUAL GIST \(self.showedGists == gists)")
             self.showedGists = gists
-            self.loadMoreStatus = false
             self.refreshing = false
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
@@ -120,14 +120,18 @@ class GistsListViewController: UIViewController, UITableViewDelegate, UITableVie
             self.tableView.setContentOffset(.zero, animated: false)
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
             }
+            self.typeChanging = false
 
         }) { (error) in
+            if self.typeChanging {
+                self.typeSwitch.setOn(self.isPublic, animated: true)
+                self.isPublic = !self.isPublic
+                self.typeChanging = false
+            }
             NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
-            self.loadMoreStatus = false
             self.refreshing = false
             self.refreshControl.endRefreshing()
-            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-            self.handleError(error, action: action)
+            self.handleError(error)
         }
     }
     

@@ -11,6 +11,12 @@ import Alamofire.Swift
 
 class ApiClient {
     static let client = ApiClient()
+    private let decoder = JSONDecoder()
+    private let manager = Alamofire.SessionManager.default
+    
+    init() {
+        manager.session.configuration.timeoutIntervalForRequest = 60
+    }
     
     func loginWith(username: String, password: String,
                    success: @escaping (_ response: Any?) -> Void,
@@ -21,16 +27,16 @@ class ApiClient {
     }
     
     func getGistsForPage(_ page: Int, isPublic: Bool,
-                   success: @escaping (_ response: Any?) -> Void,
-                   failure: @escaping (_ error: Error) -> Void) {
+                         success: @escaping (_ response: Any?) -> Void,
+                         failure: @escaping (_ error: Error) -> Void) {
         let request = ApiRouter.getGistsForPage(page: page, isPublic: isPublic)
         sendRequest(request, success: success, failure: failure)
         
     }
     
     func createGistWith(description: String, isPublic: Bool, files:[GistFile],
-                         success: @escaping (_ response: Any?) -> Void,
-                         failure: @escaping (_ error: Error) -> Void) {
+                        success: @escaping (_ response: Any?) -> Void,
+                        failure: @escaping (_ error: Error) -> Void) {
         let request = ApiRouter.createGistWith(description: description, isPublic: isPublic, files: files)
         sendRequest(request, success: success, failure: failure)
         
@@ -41,44 +47,60 @@ class ApiClient {
                      success: @escaping (_ response: Any?) -> Void,
                      failure: @escaping (_ error: Error) -> Void) {
         
-        Alamofire.request(request).responseData { (response) in
+        manager.request(request).validate(statusCode: 200...300).responseData { (response) in
+            print("================")
+            print("Reponse request url: ")
+            print(response.request?.url ?? "n/a")
             switch response.result {
                 
             case .success(_):
+                print("- Getting data -")
                 guard let data = response.data else {
                     failure(ApiClientError.unknownError)
+                    print("v Fail v")
+                    print("=-=-=-=-=-=-=-=-")
                     return
                 }
+                print("^ Success ^")
                 switch request {
                     
                 case .login:
-                    let decoder = JSONDecoder()
-                    let user = try? decoder.decode(User.self, from: data)
-                    if let authorizeUser = user {
-                        success(authorizeUser)
-                    } else {
+                    print("- login -")
+                    do {
+                        let user = try self.decoder.decode(User.self, from: data)
+                        success(user)
+                        print("^ Success ^")
+                        print("=+=+=+=+=+=+=+=+")
+                    } catch {
                         failure(ApiClientError.unknownError)
+                        print("v Fail v")
+                        print("=-=-=-=-=-=-=-=-")
                     }
                 case .getGistsForPage:
-                    let decoder = JSONDecoder()
-                    let _gists = try? decoder.decode([Gist].self, from: data)
-                    print(response.request?.url ?? "NO URL")
-                    if let gists = _gists {
+                    print("- getGists -")
+                    do {
+                        let gists = try self.decoder.decode([Gist].self, from: data)
                         success(gists)
-                        print("SUCCESS")
-                    } else {
+                        print("^ Success ^")
+                        print("=+=+=+=+=+=+=+=+")
+                    } catch {
                         failure(ApiClientError.unknownError)
-                        print("FAIL")
+                        print("v Fail v")
+                        print("=-=-=-=-=-=-=-=-")
                     }
                 case .createGistWith:
+                    print("- createGist -")
                     success(data)
-                    print("Gists")
+                    print("^ Success ^")
+                    print("=+=+=+=+=+=+=+=+")
                 }
+                
             case .failure(let error):
                 failure(error)
+                print("v Fail v")
+                print("=-=-=-=-=-=-=-=-")
             }
         }
     }
-    
     
 }
